@@ -14,7 +14,7 @@ rpm -i nginx-1.14.1-1.el7_4.ngx.src.rpm
 ```
 Также нужно скачать и разархивировать последний исходники для openssl - он потребуется при сборке (latest не работало, скачал конкретную последнюю версию):
 ```
-https://www.openssl.org/source/openssl-3.0.2.tar.gz
+wget https://www.openssl.org/source/openssl-3.0.2.tar.gz
 tar -xvf openssl-3.0.2.tar.gz
 ```
 Заранее поставим все зависимости чтобы в процессе сборки не было ошибок:
