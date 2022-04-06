@@ -81,7 +81,7 @@ cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/htm
 createrepo /usr/share/nginx/html/repo/
 ```
 Для прозрачности настроим в NGINX доступ к листингу каталога:
-● В location / в файле /etc/nginx/conf.d/default.conf добавим директиву autoindex on. В результате location будет выглядеть так:
+В location / в файле /etc/nginx/conf.d/default.conf добавим директиву autoindex on. В результате location будет выглядеть так:
 location / {
 root /usr/share/nginx/html;
 index index.html index.htm;
@@ -125,5 +125,24 @@ enabled=1
 ```
 Убедимся что репозиторий подключился и посмотрим что в нем есть:
 ````
+[root@comprepo repo]# yum repolist enabled | grep otus
+otus                                otus-linux                                 2
+[root@comprepo repo]# yum list | grep otus
+htop.x86_64                                 2.2.0-1.sdl7               otus
+```
+Пакет с nginx не отображается, предположительно потому, что уже усатновлен:
+```
+[root@comprepo repo]# yum localinstall http://localhost/repo/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
+Loaded plugins: fastestmirror
+nginx-1.14.1-1.el7_4.ngx.x86_64.rpm                                                                 | 752 kB  00:00:00
+Examining /var/tmp/yum-root-VvmdKz/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm: 1:nginx-1.14.1-1.el7_4.ngx.x86_64
+/var/tmp/yum-root-VvmdKz/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm: does not update installed package.
+Nothing to do
+```
+Установим все пакеты из репозитория otus:
+```
+[root@comprepo repo]# yum repo-pkgs otus install -y
 
+Installed:
+  htop.x86_64 0:2.2.0-1.sdl7
 ```
