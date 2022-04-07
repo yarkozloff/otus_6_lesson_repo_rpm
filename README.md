@@ -1,3 +1,5 @@
+Получившийся репозиторий: http://93.185.166.183/repo/
+
 # Создать свой RPM пакет
 Для данного задания нам понадобятся следующие установленные пакеты:
 ```
@@ -61,9 +63,10 @@ yum localinstall -y \rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
 ```
 mkdir /usr/share/nginx/html/repo
 ```
-Копируем туда наш собранный RPM
+Копируем туда наш собранный RPM и RPM для установки htop:
 ```
 cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/html/repo/
+wget http://springdale.princeton.edu/data/springdale/7/x86_64/os/Addons/Packages/htop-2.2.0-1.sdl7.x86_64.rpm -O /usr/share/nginx/html/repo/htop-2.2.0-1.sdl7.x86_64.rpm
 ```
 Инициализируем репозиторий:
 ```
@@ -100,7 +103,7 @@ Curl-ануть для проверки:
 [root@yarkozloff ~]# cat >> /etc/yum.repos.d/otus.repo << EOF
 > [otus]
 > name=otus-linux
-> baseurl=http://localhost/repo
+> baseurl=http://93.185.166.183/repo
 > gpgcheck=0
 > enabled=1
 > EOF
@@ -108,7 +111,7 @@ Curl-ануть для проверки:
 [root@yarkozloff ~]# cat /etc/yum.repos.d/otus.repo
 [otus]
 name=otus-linux
-baseurl=http://localhost/repo
+baseurl=http://93.185.166.183/repo
 gpgcheck=0
 enabled=1
 ```
@@ -121,7 +124,7 @@ htop.x86_64                                 2.2.0-1.sdl7               otus
 ```
 Пакет с nginx не отображается, предположительно потому, что уже усатновлен:
 ```
-[root@comprepo repo]# yum localinstall http://localhost/repo/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
+[root@comprepo repo]# yum localinstall http://93.185.166.183/repo/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
 Loaded plugins: fastestmirror
 nginx-1.14.1-1.el7_4.ngx.x86_64.rpm                                                                 | 752 kB  00:00:00
 Examining /var/tmp/yum-root-VvmdKz/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm: 1:nginx-1.14.1-1.el7_4.ngx.x86_64
@@ -135,3 +138,7 @@ Nothing to do
 Installed:
   htop.x86_64 0:2.2.0-1.sdl7
 ```
+
+# Проблемы в ходе выполнения дз:
+1. Vagrant. Сначала поднял всё и настроил на centos7 боксе, который хранится локальной на виртуальной машине, соответсвенно локальный репозиторий было вытащить сложно. Не удалось установить vagrant-scp plugin, потому что хашикорп всё, локально не стал скачивать и поднимать, поэтому повторил по мвоей методичке задание на другой машине с интернетом.
+2. Непонятно почему по команде /yum list | grep otus/ не видно nginx пакета, однако в репозитории его видно. 
