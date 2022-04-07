@@ -21,18 +21,7 @@ tar -xvf openssl-3.0.2.tar.gz
 ```
 yum-builddep rpmbuild/SPECS/nginx.spec
 ```
-Далее нужно поправить spec файл чтоы NGINX собирался с необходимыми нам опциями:
-```
-checking for C compiler ... not found
-
-./configure: error: C compiler cc is not found
-
-error: Bad exit status from /var/tmp/rpm-tmp.k7pbeH (%build)
-
-
-RPM build errors:
-    Bad exit status from /var/tmp/rpm-tmp.k7pbeH (%build)
-```
+Далее нужно поправить spec файл чтоы NGINX собирался с необходимыми нам опциями
 И собрать rpm покет:
 ```
 rpmbuild -bb rpmbuild/SPECS/nginx.spec
